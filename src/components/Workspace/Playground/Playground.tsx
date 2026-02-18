@@ -5,6 +5,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
+import ChatAssistant from "./ChatAssistant";
 import { Problem } from "@/utils/types/problem";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/firebase/firebase";
@@ -29,6 +30,7 @@ export interface ISettings {
 const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved }) => {
 	const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
 	let [userCode, setUserCode] = useState<string>(problem.starterCode);
+	const [isChatOpen, setIsChatOpen] = useState(false);
 
 	const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
 
@@ -166,7 +168,12 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 					</div>
 				</div>
 			</Split>
-			<EditorFooter handleSubmit={handleSubmit} />
+			<ChatAssistant
+				isOpen={isChatOpen}
+				onClose={() => setIsChatOpen(false)}
+				currentCode={userCode}
+			/>
+			<EditorFooter handleSubmit={handleSubmit} onAskAi={() => setIsChatOpen(true)} />
 		</div>
 	);
 };
