@@ -287,6 +287,16 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, onClose, currentC
 				</p>
 
 				<div className='flex items-center gap-2 pt-1'>
+					{(() => {
+						const modelOptions: ModelInfo[] = availableModels.length
+							? availableModels
+							: DEFAULT_MODEL_CANDIDATES.map((id) => ({
+									id,
+									displayName: undefined,
+									supportedGenerationMethods: ["generateContent"],
+								}));
+
+						return (
 					<div className='flex-1'>
 						<label className='block text-[11px] text-dark-label-2 mb-1'>Model</label>
 						<select
@@ -294,15 +304,15 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, onClose, currentC
 							onChange={(e) => setModelId(e.target.value)}
 							className='w-full rounded-md bg-dark-layer-1 border border-dark-fill-3 text-xs px-2 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-dark-green-s'
 						>
-							{(availableModels.length ? availableModels : DEFAULT_MODEL_CANDIDATES.map((id) => ({ id }))).map(
-								(m) => (
-									<option key={m.id} value={m.id}>
-										{m.displayName ? `${m.displayName} (${m.id})` : m.id}
-									</option>
-								)
-							)}
+							{modelOptions.map((m) => (
+								<option key={m.id} value={m.id}>
+									{m.displayName ? `${m.displayName} (${m.id})` : m.id}
+								</option>
+							))}
 						</select>
 					</div>
+						);
+					})()}
 					<div className='w-28'>
 						<label className='block text-[11px] text-dark-label-2 mb-1'>API</label>
 						<select
