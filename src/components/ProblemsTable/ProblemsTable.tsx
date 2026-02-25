@@ -45,31 +45,34 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
 							? "text-dark-yellow"
 							: "text-dark-pink";
 					return (
-						<tr className={`${idx % 2 == 1 ? "bg-dark-layer-1" : ""}`} key={problem.id}>
-							<th className='px-2 py-4 font-medium whitespace-nowrap text-dark-green-s'>
+						<tr
+							className={`${idx % 2 == 1 ? "bg-dark-layer-1/50" : "bg-transparent"} hover:bg-dark-fill-3/60 transition-colors`}
+							key={problem.id}
+						>
+							<th className='px-3 sm:px-4 py-3 font-medium whitespace-nowrap text-dark-green-s text-center align-middle'>
 								{solvedProblems.includes(problem.id) && <BsCheckCircle fontSize={"18"} width='18' />}
 							</th>
-							<td className='px-6 py-4'>
+							<td className='px-4 sm:px-6 py-3'>
 								<Link
-									className='hover:text-blue-600 cursor-pointer'
+									className='hover:text-brand-orange cursor-pointer transition-colors'
 									href={`/problems/${problem.id}`}
 								>
 									{problem.title}
 								</Link>
 							</td>
-							<td className={`px-6 py-4 ${difficulyColor}`}>{problem.difficulty}</td>
-							<td className={"px-6 py-4"}>{problem.category}</td>
-							<td className={"px-6 py-4"}>
+							<td className={`px-4 sm:px-6 py-3 ${difficulyColor}`}>{problem.difficulty}</td>
+							<td className={'px-4 sm:px-6 py-3 text-dark-gray-7'}>{problem.category}</td>
+							<td className={'px-4 sm:px-6 py-3 text-right sm:text-center'}>
 								{problem.videoId ? (
 									<AiFillYoutube
 										fontSize={"28"}
-										className='cursor-pointer hover:text-red-600'
+										className='cursor-pointer text-dark-gray-7 hover:text-red-500 transition-colors'
 										onClick={() =>
 											setYoutubePlayer({ isOpen: true, videoId: problem.videoId as string })
 										}
 									/>
 								) : (
-									<p className='text-gray-400'>Coming soon</p>
+									<p className='text-dark-gray-6 text-xs sm:text-sm'>Coming soon</p>
 								)}
 							</td>
 						</tr>
@@ -77,25 +80,23 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
 				})}
 			</tbody>
 			{youtubePlayer.isOpen && (
-				<tfoot className='fixed top-0 left-0 h-screen w-screen flex items-center justify-center'>
+				<tfoot className='fixed inset-0 z-40 flex items-center justify-center'>
 					<div
-						className='bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute'
+						className='absolute inset-0 bg-black/80 backdrop-blur-sm'
 						onClick={closeModal}
 					></div>
-					<div className='w-full z-50 h-full px-6 relative max-w-4xl'>
-						<div className='w-full h-full flex items-center justify-center relative'>
-							<div className='w-full relative'>
-								<IoClose
-									fontSize={"35"}
-									className='cursor-pointer absolute -top-16 right-0'
-									onClick={closeModal}
-								/>
-								<YouTube
-									videoId={youtubePlayer.videoId}
-									loading='lazy'
-									iframeClassName='w-full min-h-[500px]'
-								/>
-							</div>
+					<div className='relative z-50 w-full max-w-4xl px-4 sm:px-6'>
+						<div className='relative w-full rounded-xl overflow-hidden bg-black/80 border border-dark-divider-border-2 shadow-xl'>
+							<IoClose
+								fontSize={"32"}
+								className='cursor-pointer absolute top-4 right-4 text-dark-gray-7 hover:text-white transition-colors'
+								onClick={closeModal}
+							/>
+							<YouTube
+								videoId={youtubePlayer.videoId}
+								loading='lazy'
+								iframeClassName='w-full min-h-[260px] sm:min-h-[420px] md:min-h-[500px]'
+							/>
 						</div>
 					</div>
 				</tfoot>

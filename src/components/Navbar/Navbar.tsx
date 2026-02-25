@@ -8,31 +8,36 @@ type NavbarProps = {};
 
 const Navbar: React.FC<NavbarProps> = () => {
 	const setAuthModalState = useSetRecoilState(authModalState);
+
 	const handleClick = () => {
 		setAuthModalState((prev) => ({ ...prev, isOpen: true }));
 	};
+
 	return (
-		<div className='flex items-center justify-between sm:px-12 px-2 md:px-24'>
-			<Link href='/' className='flex items-center justify-center h-20'>
-				<Image src='/logo.png' alt='LeetClone' height={200} width={200} />
+		<header className='flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8 text-dark-gray-7'>
+			<Link href='/' className='flex items-center gap-2'>
+				<Image src='/logo-full.png' alt='AlgoLift logo' height={460} width={180} />
 			</Link>
-			<Link href="/visual">
-				<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out">
-					Open Algorithm Visualizer
-				</button>
-			</Link>
-			<div className='flex items-center'>
+
+			<nav className='hidden sm:flex items-center gap-6 text-xs sm:text-sm'>
+				<Link href='/' className='hover:text-white transition-colors'>Problems</Link>
+				<Link href='/visual' className='hover:text-white transition-colors'>Visualizer</Link>
+			</nav>
+
+			<div className='flex items-center gap-2 sm:gap-3'>
+				<Link href='/visual' className='sm:hidden'>
+					<button className='px-3 py-1.5 rounded-lg text-xs font-medium bg-dark-fill-3 text-dark-gray-7 hover:bg-dark-fill-2 transition-colors'>
+						Visualizer
+					</button>
+				</Link>
 				<button
-					className='bg-brand-orange text-white px-2 py-1 sm:px-4 rounded-md text-sm font-medium
-                hover:text-brand-orange hover:bg-white hover:border-2 hover:border-brand-orange border-2 border-transparent
-                transition duration-300 ease-in-out
-                '
+					className='px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-brand-orange text-black hover:brightness-110 transition-all'
 					onClick={handleClick}
 				>
 					Sign In
 				</button>
 			</div>
-		</div>
+		</header>
 	);
 };
 export default Navbar;
